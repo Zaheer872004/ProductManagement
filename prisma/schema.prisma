@@ -45,6 +45,7 @@ model Product {
   total_quantity Int
   price          Float
   category       String
+  expiryDate     DateTime          // product expiryDate here.
   suppliers      ProductSupplier[] // Many-to-many relationship with suppliers
   retailers      ProductRetailer[]  // Many-to-many relationship with retailers
   sales          Sale[]            // One-to-many relationship with sales
