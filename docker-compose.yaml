@@ -1,0 +1,15 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD} # Your root password
+      MYSQL_DATABASE: ${DB_NAME}               # The database name you want to create
+      MYSQL_USER: ${DB_USER}                   # Your username
+      MYSQL_PASSWORD: ${DB_PASSWORD}           # Your user password
+    ports:
+      - "${DB_PORT}:3306"                       # The port mapping (3306 is MySQL's default)
+    volumes:
+      - ./docker-data/db:/var/lib/mysql         # Volume to persist data

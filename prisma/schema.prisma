@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// This is your Prisma schema file
+
+// Define the data source
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  user_id      Int      @id @default(autoincrement())
+  username     String   @unique
+  phoneNumber  String?
+  email        String   @unique
+  password     String
+  role         Role @default(Retailer)
+  isVerified   Boolean
+  expiryDate   DateTime
+  products     ProductUser[] // Mapping which users added products
+  sales        Sale[]         // Relationship with Sales
+}
+
+enum Role {
+  Admin
+  Retailer
+  Supplier
+}
+
+
+
+// Define the Product model
+model Product {
+  prod_id        Int              @id @default(autoincrement())
+  productName    String
+  total_quantity Int
+  price          Float
+  category       String
+  suppliers      ProductSupplier[] // Many-to-many relationship with suppliers
+  retailers      ProductRetailer[]  // Many-to-many relationship with retailers
+  sales          Sale[]            // One-to-many relationship with sales
+  productUsers   ProductUser[]     // Tracking users who added the product
+}
+
+// ProductUser table to track who added the product
+model ProductUser {
+  productId Int
+  userId    Int
+  product   Product  @relation(fields: [productId], references: [prod_id])
+  user      User     @relation(fields: [userId], references: [user_id])
+
+  @@id([productId, userId])
+}
+
+// Define the Supplier model
+model Supplier {
+  supp_id       Int              @id @default(autoincrement())
+  phone_no      String?
+  email         String?
+  address       String?
+  feedback      String?
+  products      ProductSupplier[] // Relationship with ProductSupplier
+}
+
+// Define the ProductSupplier model (many-to-many relation)
+model ProductSupplier {
+  productId     Int
+  supplierId    Int
+  supplyBatch   String?  // Optional batch number or supply identifier
+  product       Product  @relation(fields: [productId], references: [prod_id])
+  supplier      Supplier @relation(fields: [supplierId], references: [supp_id])
+
+  @@id([productId, supplierId]) // Composite primary key
+}
+
+// Define the Retailer model
+model Retailer {
+  retail_id     Int              @id @default(autoincrement())
+  name          String
+  address       String?
+  email         String?
+  products      ProductRetailer[] // Relationship with ProductRetailer
+  sales         Sale[]            // One-to-many relationship with sales
+}
+
+// Define the ProductRetailer model (many-to-many relation)
+model ProductRetailer {
+  productId     Int
+  retailerId    Int
+  product       Product  @relation(fields: [productId], references: [prod_id])
+  retailer      Retailer @relation(fields: [retailerId], references: [retail_id])
+
+  @@id([productId, retailerId]) // Composite primary key
+}
+
+// Define the Sale model
+model Sale {
+  sale_id      Int      @id @default(autoincrement())
+  productId    Int
+  retailerId   Int
+  quantitySold Int
+  saleDate     DateTime @default(now())
+  totalPrice   Float    @default(0.0) // Optional; can be derived
+
+  product      Product  @relation(fields: [productId], references: [prod_id])
+  retailer     Retailer @relation(fields: [retailerId], references: [retail_id])
+
+  // Foreign key to the User who made the sale
+  userId       Int?
+  user         User?    @relation(fields: [userId], references: [user_id])
+}
