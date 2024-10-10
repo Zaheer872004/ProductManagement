@@ -19,12 +19,13 @@ datasource db {
 // User model
 model User {
   user_id      Int      @id @default(autoincrement())
-  username     String   @unique
-  phoneNumber  String?
-  email        String   @unique
-  password     String
-  role         Role @default(Retailer)
+  username     String   @unique   // done
+  phoneNumber  String?            // done
+  email        String   @unique   // done
+  password     String             // done
+  role         Role @default(Retailer)    // done
   isVerified   Boolean
+  OTP          Int
   expiryDate   DateTime
   products     ProductUser[] // Mapping which users added products
   sales        Sale[]         // Relationship with Sales
