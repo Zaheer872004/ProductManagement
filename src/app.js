@@ -3,7 +3,7 @@ import logger from "./helper/logger.js";
 import morgan from "morgan";
 import cors from 'cors';
 import cookieParser from "cookie-parser";
-// import { ApiError } from "./helper/ApiError.js"
+import { ApiError } from "./helper/index.js";
 
 const app = express();
 
@@ -43,6 +43,11 @@ app.use(
 );
 
 
+// here our routes middleware
+import healthCheck from "./routes/index.js"
+
+app.use("/api", healthCheck)
+
 
 
 
@@ -67,6 +72,9 @@ app.use((err, req, res, next) => {
         success: false
     });
 });
+
+
+
 
 
 
