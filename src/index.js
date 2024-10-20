@@ -1,5 +1,5 @@
 import { app } from "./app.js";
-import { prisma } from "./config/db.config.js";
+import { prisma } from "./prismaExtension/userHooks.js";
 import logger from "./helper/logger.js";
 import dotenv from "dotenv";
 dotenv.config({}) // automatically detect the .env file 
