@@ -3,9 +3,6 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 
-// here we can extend the prisma client
-// when anychange happens in the user model
-// below method(create,update) automatically triggers.
 const prisma = prismaClient.$extends({
     query: {
         user: {

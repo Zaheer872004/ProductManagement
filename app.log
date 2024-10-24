@@ -642,3 +642,9 @@
 {"level":"\u001b[32minfo\u001b[39m","message":"Server running in http://localhost:4000","timestamp":"2024-10-20T07:11:31.295Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/api/v1/health-check\",\"status\":\"200\",\"responseTime\":\"7.871\"}","timestamp":"2024-10-20T07:11:35.086Z"}
 {"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/api/v1/health-check\",\"status\":\"200\",\"responseTime\":\"2.190\"}","timestamp":"2024-10-20T07:11:36.853Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server running in http://localhost:4000","timestamp":"2024-10-20T07:27:17.151Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/api/v1/health-check\",\"status\":\"200\",\"responseTime\":\"7.685\"}","timestamp":"2024-10-20T07:27:29.125Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/api/v1/health-chec\",\"status\":\"404\",\"responseTime\":\"1.208\"}","timestamp":"2024-10-20T07:27:39.317Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"{\"method\":\"GET\",\"url\":\"/api/v1/health-check\",\"status\":\"200\",\"responseTime\":\"1.436\"}","timestamp":"2024-10-20T07:27:45.109Z"}
+{"level":"\u001b[31merror\u001b[39m","message":"Error connecting to database","timestamp":"2024-10-24T16:54:02.581Z"}
+{"level":"\u001b[32minfo\u001b[39m","message":"Server running in http://localhost:4000","timestamp":"2024-10-24T16:55:32.702Z"}

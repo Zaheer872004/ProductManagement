@@ -17,7 +17,8 @@
     "zod",
     "validation",
     "Backend",
-    "ProductManagement"
+    "ProductManagement",
+    "ProductExpiryTracking"
   ],
   "author": "Mohammad Zaheer Khan",
   "license": "ISC",
