@@ -67,7 +67,7 @@ const OTP = z
 
 const SignInSchema = z.object(
     {
-        identifier: z.union([username, email]),
+        identifier: z.string().nonempty(),
         password
     }
 )

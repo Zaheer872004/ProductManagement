@@ -24,11 +24,11 @@ const PORT = process.env.PORT || 4000
 prisma.$connect()
 .then(() => {
     app.listen(PORT,()=>{
-        logger.info(`Server running in http://localhost:${PORT}`);
+        console.log(`Server running in http://localhost:${PORT}`);
     })
 })
 .catch(() => {
-    logger.error("Error connecting to database");
+    console.log("Error connecting to database");
 })
 
 

@@ -26,6 +26,7 @@ model User {
   role         Role @default(Retailer)    // done
   isVerified   Boolean
   OTP          Int
+  refreshToken String // adding when the login controller is created...
   expiryDate   DateTime
   products     ProductUser[] // Mapping which users added products
   sales        Sale[]         // Relationship with Sales

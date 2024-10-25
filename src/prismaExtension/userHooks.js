@@ -2,8 +2,9 @@ import { prismaClient } from "../config/db.config.js"
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
+export const prisma = prismaClient;
 
-const prisma = prismaClient.$extends({
+export const prismaMethods = prismaClient.$extends({
     query: {
         user: {
             async create({ args, query }) {
@@ -111,14 +112,4 @@ const prisma = prismaClient.$extends({
 });
 
 
-
-
-
-
-
-
-
-export { 
-    prisma
-}
 
