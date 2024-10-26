@@ -8,5 +8,6 @@ export {
     email,
     phoneNumber,
     OTP,
+    VerifyEmailSchema,
 
 } from './user.schema.js'

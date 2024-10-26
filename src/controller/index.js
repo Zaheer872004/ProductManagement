@@ -1,3 +1,3 @@
 
 export { healthCheckController } from "./healthCheck.controller.js"
-export { User } from './user.controller.js'
+export { userController } from './user.controller.js'

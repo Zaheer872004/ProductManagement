@@ -72,6 +72,12 @@ const SignInSchema = z.object(
     }
 )
 
+const VerifyEmailSchema = z.object(
+    {
+        username,
+        OTP
+    }
+)
 
 
 
@@ -83,5 +89,5 @@ export {
     email,
     phoneNumber,
     OTP,
-
+    VerifyEmailSchema,
 }
