@@ -1,8 +1,7 @@
-import { ApiError, asyncHandler } from "../helper";
-import { userRespository } from "../repository";
-import { SignInSchema, SignUpSchema, VerifyEmailSchema } from "../zodSchema";
-
-
+import { ApiError, asyncHandler } from "../helper/index.js";
+import { userRespository } from "../repository/index.js";
+import { SignInSchema, SignUpSchema, VerifyEmailSchema } from "../zodSchema/index.js";
+import { otpGenerator, sendVerificationEmail } from "../utils/otpGenerator.js";
 export class UserService {
 
     constructor(){}
@@ -25,14 +24,36 @@ export class UserService {
 
                 // send email to this email to verify email using otp.
 
-                TODO: // here email send endpoint here...
-                return;
+                // generate otp
+                const otp = otpGenerator();
+                
+                // TODO: here email send endpoint here...
+
+                const response = await sendVerificationEmail(existingUser.email, existingUser.username, otp);
+
+                console.log(response)
+
+                const updateUserWithOtp = await userRespository.updateVerifyStatusWithOtp(existingUser.user_id, otp);
+
+                console.log(updateUserWithOtp)
+
+                return updateUserWithOtp;
+
+
+                
             }else{
                 throw new ApiError("User already exists", 400)
             }
         }
 
-        const user = await userRespository.createUser({username, email, password,phoneNumber, role});
+
+        const otpNewUser = otpGenerator();
+
+        const responseNewUser = await sendVerificationEmail(existingUser.email, existingUser.username, otp);
+        
+        console.log(responseNewUser)
+
+        const user = await userRespository.createUser({username, email, password,phoneNumber, role, otp : otpNewUser, expiryDate : new Date(Date.now() + 5 * 60 * 1000)});
 
         return user;
 
@@ -64,7 +85,7 @@ export class UserService {
         }
 
         // here check otp is exipired or not
-        if(user.expiryDate < Date.now()){
+        if(user.expiryDate <= Date.now()){
             throw new ApiError("OTP expired", 400)
         }
 
