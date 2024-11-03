@@ -1,4 +1,4 @@
-import { asyncHandler, ApiError,ApiResponse } from "../helper/index.js";
+import { asyncHandler, ApiError,ApiResponse,options } from "../helper/index.js";
 import { SignInSchema, SignUpSchema } from '../zodSchema/index.js'
 import { userService } from "../service/index.js";
 import cookieParser from "cookie-parser";
@@ -11,6 +11,10 @@ export class UserController {
 
         // TODO: check user with all data comes or not all field is neccessay checked in middleware of user
 
+        
+        // const {username, email, password, phoneNumber, role} = req.body;
+
+        // console.log(username, email, password, phoneNumber, role);
         const data = req.body;
 
         const response = await userService.registerUser(data)
@@ -36,11 +40,16 @@ export class UserController {
         // 1. username
         // 2. otp
 
-        const {otp} = req.body;
+        let {otp} = req.body;
         const {username} = req.params;
 
+        // otp = parseInt(otp,10)
 
-        const data = {username, otp}
+        // console.log(username, otp)
+
+        const data = {username , otp}
+
+        // console.log("data", username, otp, typeof(otp));
 
         const response = await userService.verifyEmail(data)
 
@@ -71,6 +80,8 @@ export class UserController {
             .status(201)
             // set here cookies("refreshToken")
             // set here cookies("accessToken")
+            .cookie("accessToken", response.accessToken, {options})
+            .cookie("refreshToken", response.refreshToken, {options})
             .json(
                 new ApiResponse(
                     201,

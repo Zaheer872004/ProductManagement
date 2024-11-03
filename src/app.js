@@ -45,9 +45,13 @@ app.use(
 
 // here our routes middleware
 import healthCheck from "./routes/index.js"
+import userAuth from './routes/index.js'
 
+// health check route
 app.use("/api", healthCheck)
 
+// user route
+app.use("/api", userAuth)
 
 
 

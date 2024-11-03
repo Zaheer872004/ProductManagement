@@ -7,7 +7,7 @@ export {
     password,
     email,
     phoneNumber,
-    OTP,
+    otp,
     VerifyEmailSchema,
 
 } from './user.schema.js'

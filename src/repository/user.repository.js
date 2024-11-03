@@ -11,7 +11,7 @@ export class UserRepository {
     // update user otp and existing otp and expiryDate
     async updateVerifyStatusWithOtp(user_id, otp){
 
-        return await prisma.user.update({
+        return await prismaMethods.user.update({
             where : {
                 user_id
             },
@@ -39,21 +39,17 @@ export class UserRepository {
 
     // getting the user by username or email either one of them
     async findUserByUsernameEmail(identifier) {
-
-        const isEmail = identifier.includes('@'); 
-
-        return
-            await prisma.user.findFirst(
-                {
-                    where: 
-                        isEmail ? { email: identifier } : { username: identifier }
-                }
-            );
+        const value = String(identifier).toLowerCase();
+        const isEmail = value.includes("@");
+    
+        return await prisma.user.findFirst({
+            where: isEmail ? { email: value } : { username: value }
+        });
     }
 
     // creating a user with their data
     async createUser({username, email, password,phoneNumber, role, otp, expiryDate}){
-        const user = await prisma.user.create({
+        const user = await prismaMethods.user.create({
             data : {
                 username,
                 email,
@@ -86,16 +82,16 @@ export class UserRepository {
 
     // checking user is password correct or not
     async checkIsPasswordCorrect(user_id, password){
-        const isCorrect = await prismaMethods.isPasswordCorrect(user_id, password);
+        const isCorrect = await prismaMethods.user.isPasswordCorrect(user_id, password);
         return isCorrect
     }
 
     // generating access token and refresh token
     async generateTokens(user){
 
-        const accessToken = await prismaMethods.generateAccessToken(user);
+        const accessToken = await prismaMethods.user.generateAccessToken(user);
 
-        const refreshToken = await prismaMethods.generateRefreshToken(user);
+        const refreshToken = await prismaMethods.user.generateRefreshToken(user);
 
         await prisma.user.update(
             {

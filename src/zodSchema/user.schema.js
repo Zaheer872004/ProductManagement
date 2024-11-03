@@ -57,7 +57,7 @@ const SignUpSchema = z.object(
 //     .default([])
 
 
-const OTP = z
+const otp = z
     .string()
     .length(6, 'OTP must be exactly 6 characters long')
     .regex(/^\d+$/, 'OTP can only contain numbers')
@@ -75,7 +75,7 @@ const SignInSchema = z.object(
 const VerifyEmailSchema = z.object(
     {
         username,
-        OTP
+        otp
     }
 )
 
@@ -88,6 +88,6 @@ export {
     password,
     email,
     phoneNumber,
-    OTP,
+    otp,
     VerifyEmailSchema,
 }

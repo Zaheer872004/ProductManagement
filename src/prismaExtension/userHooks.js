@@ -13,13 +13,18 @@ export const prismaMethods = prismaClient.$extends({
                     if (args.data?.password) {
                         const hash = await bcrypt.hash(args.data.password, 10);
                         args.data.password = hash; // Override with hashed password
+                        console.log("Hashed password:", args.data.password); // Log the hashed password
                     }
                 } catch (error) {
                     throw new Error(`Error hashing password: ${error.message}`);
                 }
 
                 // Execute the original create query (creating user)
-                return query(args);
+                const user = await query(args);
+
+                // Remove the password from the user object before returning
+                const { password, ...userWithoutPassword } = user;
+                return userWithoutPassword;
             },
 
             async update({ args, query }) {
@@ -34,7 +39,11 @@ export const prismaMethods = prismaClient.$extends({
                 }
 
                 // Execute the original update query (updating user)
-                return query(args);
+                const user = await query(args);
+
+                // Remove the password from the user object before returning
+                const { password, ...userWithoutPassword } = user;
+                return userWithoutPassword;
             }
         }
     },
