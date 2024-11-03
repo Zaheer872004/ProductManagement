@@ -1,6 +1,7 @@
 import { asyncHandler, ApiError,ApiResponse } from "../helper/index.js";
 import { SignInSchema, SignUpSchema } from '../zodSchema/index.js'
 import { userService } from "../service/index.js";
+import cookieParser from "cookie-parser";
 
 export class UserController {
 
@@ -68,6 +69,8 @@ export class UserController {
 
         return res
             .status(201)
+            // set here cookies("refreshToken")
+            // set here cookies("accessToken")
             .json(
                 new ApiResponse(
                     201,

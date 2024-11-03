@@ -1,3 +1,3 @@
 
-export { otpGenerator } from './otpGenerator';
-export { sendVerificationEmail } from './sendEmail';
+export { otpGenerator } from './otpGenerator.js';
+export { sendVerificationEmail } from './sendEmail.js';

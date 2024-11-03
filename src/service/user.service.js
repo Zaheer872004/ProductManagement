@@ -1,7 +1,7 @@
 import { ApiError, asyncHandler } from "../helper/index.js";
 import { userRespository } from "../repository/index.js";
 import { SignInSchema, SignUpSchema, VerifyEmailSchema } from "../zodSchema/index.js";
-import { otpGenerator, sendVerificationEmail } from "../utils/otpGenerator.js";
+import { otpGenerator, sendVerificationEmail } from "../utils/index.js";
 export class UserService {
 
     constructor(){}
