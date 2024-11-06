@@ -8,6 +8,19 @@ export class UserRepository {
 
     }
 
+    //find user by id 
+    async findUserById(userId){
+        return await prisma.user.findUnique(
+            {
+                where : {
+                    user_id : userId
+                }
+            }
+        )
+    }
+
+
+
     // update user otp and existing otp and expiryDate
     async updateVerifyStatusWithOtp(user_id, otp){
 

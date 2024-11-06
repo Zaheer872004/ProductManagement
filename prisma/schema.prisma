@@ -28,6 +28,12 @@ model User {
   otp          Int
   refreshToken String? @db.VarChar(500) // adding when the login controller is created...
   expiryDate   DateTime
+
+
+  suppliers  Supplier?
+  retailer   Retailer?
+
+
   products     ProductUser[] // Mapping which users added products
   sales        Sale[]         // Relationship with Sales
 }
@@ -56,7 +62,7 @@ model Product {
 
 // ProductUser table to track who added the product
 model ProductUser {
-  productId Int
+  productId Int 
   userId    Int
   product   Product  @relation(fields: [productId], references: [prod_id])
   user      User     @relation(fields: [userId], references: [user_id])
@@ -67,10 +73,16 @@ model ProductUser {
 // Define the Supplier model
 model Supplier {
   supp_id       Int              @id @default(autoincrement())
-  phone_no      String?
-  email         String?
+  userId        Int @unique // forign key to user table
+  // phone_no      String?
+  // email         String?
+  // feedback      String?
+  addharNo      String  @unique
+  description   String?
   address       String?
-  feedback      String?
+
+  user        User      @relation(fields: [userId], references: [user_id]) // Relation to User
+
   products      ProductSupplier[] // Relationship with ProductSupplier
 }
 
@@ -88,9 +100,14 @@ model ProductSupplier {
 // Define the Retailer model
 model Retailer {
   retail_id     Int              @id @default(autoincrement())
+  userId        Int @unique
   name          String
   address       String?
   email         String?
+
+
+  user        User      @relation(fields: [userId], references: [user_id]) // Relation to User
+
   products      ProductRetailer[] // Relationship with ProductRetailer
   sales         Sale[]            // One-to-many relationship with sales
 }
