@@ -26,12 +26,12 @@ export class UserService {
 
 
 
-        const existingUser = await userRespository.findUserByUsernameOrEmail(username,email);
+        const existingUser = await userRespository.findUserByUsernameOrEmail(username,email); // true
 
         // console.log("till below of existingUser") //done
         
 
-        if(existingUser){
+        if(existingUser){  // true
             if(!existingUser.isVerified){
                 // give them username and email and send otp to verify email
 
@@ -213,6 +213,9 @@ export class UserService {
 
 
     })
+
+
+
     
 
 }

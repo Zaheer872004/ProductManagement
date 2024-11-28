@@ -80,6 +80,7 @@ model Supplier {
   addharNo      String  @unique
   description   String?
   address       String?
+  // other details getting from the user table...
 
   user        User      @relation(fields: [userId], references: [user_id]) // Relation to User
 

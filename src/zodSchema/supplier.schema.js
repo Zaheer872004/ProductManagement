@@ -1,13 +1,13 @@
 import { z } from 'zod'
-import { phoneNumber } from './user.schema'
-import { email } from './user.schema'
+import { phoneNumber } from './user.schema.js'
+import { email } from './user.schema.js'
 import {
         productName, 
         totalQuantity, 
         unitPrice, 
         category,
         expiryDate 
-    } from './product.schema'
+    } from './product.schema.js'
 
 // time to getting the product from the person 
 /*
@@ -34,8 +34,17 @@ const SupplierSchema = z.object(
     }
 )
 
+const createSupplierSchema = z.object(
+    {
+        addharNo : z.string().length(12, 'Addhar number must be 12 characters long'),
+        description : z.string().optional(),
+        address : z.string().optional()
+    }
+)
+
 
 export {
-    SupplierSchema
+    SupplierSchema,
+    createSupplierSchema
     
 }
