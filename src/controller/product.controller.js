@@ -26,7 +26,7 @@ class ProductController {
       price,
       category,
       expiryDate,
-      userId,
+      user_id,
       supplyBatch
     )
 

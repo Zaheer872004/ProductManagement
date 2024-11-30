@@ -1,5 +1,6 @@
-import { asyncHandler } from "../helper/index.js";
+import { ApiError, asyncHandler } from "../helper/index.js";
 import { prisma, prismaMethods } from "../prismaExtension/userHooks.js"
+import { email, phoneNumber, username } from "../zodSchema/user.schema.js";
 
 
 export class UserRepository {
@@ -120,7 +121,65 @@ export class UserRepository {
         return {accessToken, refreshToken}
 
     }
+
+
+    updatePassword = async (user_id, password) => {
+
+        try {
+
+            const response = await prisma.user.update(
+                {
+                    where : {
+                        user_id
+                    },
+                    data : {
+                        password
+                    }
+                }
+            )
+
+            if(!response){
+                throw new ApiError(400,"in db password not updated")
+            }
+            return response;
+
+        } catch (error) {
+            console.log(error);
+            throw new ApiError(400,error.message);
+        }
+
+
+    }
+
+    updateProfile = async(user_id, { username, phoneNumber, email}) => {
+
+        try {
+
+            const response = await prisma.user.update(
+                {
+                    where : {
+                        user_id
+                    },
+                    data : {
+                        username,
+                        phoneNumber,
+                        email
+                    }
+                }
+            )
+
+            if(!response){
+                throw new ApiError(400,"in db profile not updated")
+            }
+            return response;
+
+        } catch (error) {
+            console.log(error);
+            throw new ApiError(400,error.message);
+            }
+    }
     
+
 
 }
 

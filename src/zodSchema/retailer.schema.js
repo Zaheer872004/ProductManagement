@@ -36,8 +36,13 @@ const RetailerSchema = z.object(
     }
 )
 
+const address = z.string().min(10, 'Address must be at least 10 characters long').optional()
+
+
+
 
 export {
     RetailerSchema,
+    address
 }
 

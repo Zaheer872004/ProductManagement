@@ -1,6 +1,6 @@
 import { ApiError, logger, serviceAsyncHandler } from "../helper/index.js";
 import { userRespository } from "../repository/index.js";
-import { SignInSchema, SignUpSchema, VerifyEmailSchema } from "../zodSchema/index.js";
+import { password, SignInSchema, SignUpSchema, VerifyEmailSchema,profile, phoneNumber, email } from "../zodSchema/index.js";
 import { otpGenerator, sendVerificationEmail } from "../utils/index.js";
 export class UserService {
 
@@ -215,7 +215,93 @@ export class UserService {
     })
 
 
+    updatePassword = serviceAsyncHandler( async (user_id, {password, newPassword, confirmPassword} ) => {
 
+        if([password,newPassword,confirmPassword].some((value) => value.trim() === "")){
+            throw new ApiError(400,"provide all the credentials");
+        }
+
+        const oldPassword = password.safeParse(password);
+        const currentPassword = password.safeParse(newPassword);
+
+        if(!oldPassword.success || !currentPassword.success){
+            throw new ApiError(400, "provide the valid password ")
+        }
+
+        if( newPassword !== confirmPassword){
+            throw new ApiError(400, "confirmPassword not match");
+        }
+
+        const user = await userRespository.findUserById(user_id);
+
+        if( user.user_id.toString() !== user_id.toString() ){
+            throw new ApiError(400, "User not found | user not authorize to update password");
+        }
+
+        const isPasswordCorrect = await userRespository.checkIsPasswordCorrect(user_id,password);
+
+        if(!isPasswordCorrect){
+            throw new ApiError(400,"Please provide the correct password")
+        }
+
+        // try...
+        // you can send the otp of user email
+        // once user enter the otp then update the password in the database;
+
+        const updatePassword = await userRespository.updatePassword(user_id,newPassword);
+
+        if(!updatePassword){
+            throw new ApiError(400,"in service layer password not updated")
+        }
+
+        return true;
+
+
+    })
+
+    updateProfile = serviceAsyncHandler( async (user_id, {username, phoneNumber, email}) => {
+
+        const response = profile.safeParse({username, phoneNumber, email})
+
+        if(!response.success){
+            throw new ApiError(400, response.error.message)
+        }
+
+        const user = await userRespository.findUserById(user_id);
+
+        if( user.user_id.toString() !== user_id.toString() ){
+            throw new ApiError(400, "User not found | user not authorize to update profile");
+        }
+
+        const updateProfile = await userRespository.updateProfile(user_id, {
+            username,
+            phoneNumber,
+            email
+        });
+
+        if(!updateProfile){
+            throw new ApiError(400,"in service layer profile not updated")
+        }
+
+        return updateProfile;
+
+    })
+
+    getUserDetails = serviceAsyncHandler( async (user_id) => {
+
+        const user = await userRespository.findUserById(user_id);
+
+        // this is redundent code does not make sense
+        if( user.user_id.toString() !== user_id.toString() ){
+            throw new ApiError(400, "User not found | user not authorize to get user details");
+        }
+
+        return user;
+
+
+
+
+    })
     
 
 }

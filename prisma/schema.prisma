@@ -102,10 +102,10 @@ model ProductSupplier {
 model Retailer {
   retail_id     Int              @id @default(autoincrement())
   userId        Int @unique
-  name          String
   address       String?
-  email         String?
-
+  // name          String
+  // email         String
+  // username and email getting from the user table using join query
 
   user        User      @relation(fields: [userId], references: [user_id]) // Relation to User
 
@@ -139,3 +139,4 @@ model Sale {
   userId       Int?
   user         User?    @relation(fields: [userId], references: [user_id])
 }
+

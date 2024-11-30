@@ -37,8 +37,27 @@ const SignUpSchema = z.object(
     }
 )
 
+const profile = z.object(
+    {
+        username: z
+            .string()
+            .min(3, 'Username must be at least 3 characters long')
+            .max(20, 'Username must be at most 20 characters long')
+            .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores')
+            .transform((username) => username.toLowerCase()).optional(),
+        phoneNumber: z
+            .string()
+            .length(10, 'Phone number must be exactly 10 characters long')
+            .regex(/^\d+$/, 'Phone number can only contain numbers').optional(),
+        email: z
+            .string()
+            .email('Invalid email address')
+            .transform((email) => email.toLowerCase()).optional(),
+    }
+)
 
-    
+
+
 
 
 
@@ -61,7 +80,7 @@ const otp = z
     .string()
     .length(6, 'OTP must be exactly 6 characters long')
     .regex(/^\d+$/, 'OTP can only contain numbers')
-    .transform((otp) => parseInt(otp,10)); // here converting string to Integer 
+    .transform((otp) => parseInt(otp, 10)); // here converting string to Integer 
 
 
 
@@ -90,4 +109,5 @@ export {
     phoneNumber,
     otp,
     VerifyEmailSchema,
+    profile
 }
