@@ -92,7 +92,29 @@ export class UserController {
 
     })
 
+    logoutController = asyncHandler( async (req, res) => {
 
+
+        const {user_id} = req.user;
+
+        // const response = await userService.logoutUser(user_id)
+        if(!user_id){
+            throw new ApiError(400,"Unable to logout user");
+        }
+        
+        return res
+            .status(200)
+            .clearCookie("accessToken")
+            .clearCookie("refreshToken")
+            .json(
+                new ApiResponse(
+                    200,
+                    null,
+                    "User logged out successfully"
+                )
+            )
+
+    })
 
 
     // patch method
@@ -166,6 +188,8 @@ export class UserController {
     })
 
     //  other function like getAllProducts,
+
+    // handle delete user on that time all product and supplier will be deleted
 
 
 }
