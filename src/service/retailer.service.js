@@ -1,8 +1,8 @@
-import { address } from "../zodSchema/retailer.schema.js";
+import { address as addressSchema } from "../zodSchema/retailer.schema.js";
 import { serviceAsyncHandler } from "../helper/asyncHandler.js";
 
 
-import { retailerRepository } from "../repository/retailer.repository";
+import { retailerRepository } from "../repository/retailer.repository.js";
 
 
 class RetailerService {
@@ -10,7 +10,7 @@ class RetailerService {
   createRetailer = serviceAsyncHandler(async (user_id, address) => {
     
 
-    const respone = address.safeParse(address);
+    const respone = addressSchema.safeParse(address);
 
     if(!respone.success){
       throw new ApiError(400, respone.error.message)
@@ -48,7 +48,7 @@ class RetailerService {
       throw new ApiError(400, "Retailer id is required")  
     }
 
-    const respone = address.safeParse(address);
+    const respone = addressSchema.safeParse(address);
 
     if(!respone.success){
       throw new ApiError(400, respone.error.message)
@@ -120,6 +120,19 @@ class RetailerService {
 
     return getRetailerDetails;
 
+
+  })
+
+
+  getAllRetailer = serviceAsyncHandler(async () => {
+
+    const getAllRetailer = await retailerRepository.findAllRetailer();
+
+    if(!getAllRetailer){
+      throw new ApiError(404, "Retailer not found")
+    }
+
+    return getAllRetailer;
 
   })
 

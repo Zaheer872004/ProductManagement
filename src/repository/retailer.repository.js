@@ -136,6 +136,32 @@ class RetailerRepository {
     }
   }
 
+
+
+  findAllRetailer = async () => {
+    try {
+      const response = await prisma.retailer.findMany(
+        {
+          select : {
+            retailer_id : true,
+            address : true,
+            user : {
+              select : {
+                username : true,
+                email : true,
+                phoneNumber : true,
+              }
+            }
+          }
+        }
+      )
+      return response;
+    } catch (error) {
+      console.log(error)
+      throw new ApiError(400, error.message);
+    }
+  }
+
 }
 
 

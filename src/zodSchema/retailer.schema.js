@@ -1,14 +1,14 @@
 
 import {z} from 'zod'
-import { phoneNumber } from './user.schema'
-import { email } from './user.schema'
+import { phoneNumber } from './user.schema.js'
+import { email } from './user.schema.js'
 import {
         productName, 
         totalQuantity, 
         unitPrice, 
         category,
         expiryDate 
-    } from './product.schema'
+    } from './product.schema.js'
 
 // here is Our retailer zod data validation schema
 

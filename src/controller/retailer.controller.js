@@ -1,5 +1,5 @@
 import { ApiResponse, asyncHandler } from "../helper/index.js";
-import { retailerService } from "../service/retailer.service";
+import { retailerService } from "../service/retailer.service.js";
 
 class RetailerController {
 
@@ -99,6 +99,28 @@ class RetailerController {
     const { retailer_id } = req.params;
 
     const response = await retailerService.getRetailer(retailer_id, user_id);
+
+    if(!response){
+      throw new ApiError(400, "Unable to get retailer")
+    } 
+
+    return res
+        .status(201)
+        .json(
+            new ApiResponse(
+                201,
+                response,
+                "Retailer fetched successfully"
+            )
+        )
+
+  })
+
+  getAllRetailers = asyncHandler(async (req, res) => {
+
+    // const {user_id} = req.user;
+
+    const response = await retailerService.getAllRetailer();
 
     if(!response){
       throw new ApiError(400, "Unable to get retailer")
